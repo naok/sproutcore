@@ -100,6 +100,8 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
   
   _isFocused: NO,
   
+  _ignoreBlur: null,
+  
   /** 
     This is temporary , until we fix touch for textfields.
   */
