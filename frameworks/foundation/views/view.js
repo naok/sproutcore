@@ -1602,7 +1602,7 @@ SC.View = SC.Responder.extend(SC.DelegateSupport,
         } else key = null ;
         
         if (!view) {
-          console.error ("No view with name "+key+" has been found in "+this.toString());
+          SC.Logger.error ("No view with name "+key+" has been found in "+this.toString());
           // skip this one.
           continue;
         }
@@ -1891,18 +1891,18 @@ SC.View = SC.Responder.extend(SC.DelegateSupport,
     if (lW !== undefined &&
         lW === SC.LAYOUT_AUTO &&
         stLayout !== undefined && !stLayout) {
-     error = SC.Error.desc("%@.layout() you cannot use width:auto if "+
-              "staticLayout is disabled".fmt(this),"%@".fmt(this), -1) ;
-     console.error(error.toString()) ;
+     error = SC.Error.desc("%@.layout() you cannot use width:auto if ".fmt(this) +
+              "staticLayout is disabled","%@".fmt(this), -1) ;
+     SC.Logger.error(error.toString()) ;
      throw error ;
     }
     
     if (lH !== undefined &&
         lH === SC.LAYOUT_AUTO &&
         stLayout !== undefined && !stLayout) {
-      error = SC.Error.desc("%@.layout() you cannot use height:auto if "+
-              "staticLayout is disabled".fmt(this),"%@".fmt(this), -1) ;
-      console.error(error.toString())  ;
+      error = SC.Error.desc("%@.layout() you cannot use height:auto if ".fmt(this) +
+              "staticLayout is disabled","%@".fmt(this), -1) ;
+      SC.Logger.error(error.toString())  ;
       throw error ;
     }
     
@@ -2253,16 +2253,16 @@ SC.View = SC.Responder.extend(SC.DelegateSupport,
         lcX = layout.centerX, 
         lcY = layout.centerY;
     if (lW !== undefined && lW === SC.LAYOUT_AUTO && !stLayout) {
-      error= SC.Error.desc("%@.layout() you cannot use width:auto if "+
-              "staticLayout is disabled".fmt(this),"%@".fmt(this),-1);
-      console.error(error.toString()) ;
+      error= SC.Error.desc("%@.layout() you cannot use width:auto if ".fmt(this) +
+              "staticLayout is disabled","%@".fmt(this),-1);
+      SC.Logger.error(error.toString()) ;
       throw error ;
     }
     
     if (lH !== undefined && lH === SC.LAYOUT_AUTO && !stLayout) {
-      error = SC.Error.desc("%@.layout() you cannot use height:auto if "+
-                "staticLayout is disabled".fmt(this),"%@".fmt(this),-1);  
-      console.error(error.toString()) ;
+      error = SC.Error.desc("%@.layout() you cannot use height:auto if ".fmt(this) +
+                "staticLayout is disabled","%@".fmt(this),-1);  
+      SC.Logger.error(error.toString()) ;
       throw error ;
     }
     
@@ -2318,8 +2318,8 @@ SC.View = SC.Responder.extend(SC.DelegateSupport,
         ret.marginLeft = Math.floor(lcX - ret.width/2) ;
       }else {
         // This error message happens whenever width is not set.
-        console.warn("You have to set width and centerX usign both percentages or pixels");
-        ret.marginLeft = "50%";
+        // SC.Logger.error("You have to set width and centerX usign both percentages or pixels");
+        ret.marginLeft = 0;
       }
       ret.right = null ;
     
@@ -2391,8 +2391,8 @@ SC.View = SC.Responder.extend(SC.DelegateSupport,
       }else if(lH && lH >= 1 && !SC.isPercentage(lcY)){
         ret.marginTop = Math.floor(lcY - ret.height/2) ;
       }else {
-        console.warn("You have to set height and centerY to use both percentages or pixels");
-        ret.marginTop = "50%";
+        SC.Logger.error("You have to set height and centerY to use both percentages or pixels");
+        ret.marginTop = 0;
       }
     } else if (!SC.none(lH)) {
       ret.top = 0;
