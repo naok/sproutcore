@@ -1458,22 +1458,22 @@ SC.ScrollView = SC.View.extend(SC.Border, {
     this._scroll_contentHeight = height ;
     
     if (this.get('hasHorizontalScroller') && (view = this.get('horizontalScrollerView'))) {
-      width -= 1 ; // accurately account for our layout
       // decide if it should be visible or not
       if (this.get('autohidesHorizontalScroller')) {
         this.set('isHorizontalScrollerVisible', width > dim.width);
       }
-      view.setIfChanged('maximum', width) ;
+      view.setIfChanged('maximum', width-dim.width) ;
+      view.setIfChanged('proportion', dim.width/width);
     }
     
     if (this.get('hasVerticalScroller') && (view = this.get('verticalScrollerView'))) {
-      height -= 1 ; // accurately account for our layout
       // decide if it should be visible or not
       if (this.get('autohidesVerticalScroller')) {
         this.set('isVerticalScrollerVisible', height > dim.height);
       }
       height -= this.get('verticalScrollerBottom') ;
-      view.setIfChanged('maximum', height) ;
+      view.setIfChanged('maximum', height-dim.height) ;
+      view.setIfChanged('proportion', dim.height/height);
     }
     
     // If there is no vertical scroller and auto hiding is on, make
@@ -1502,7 +1502,7 @@ SC.ScrollView = SC.View.extend(SC.Border, {
       this.forceDimensionsRecalculation(forceWidth, forceHeight, vOffSet, hOffSet);
     }
   },
-  
+
   /** @private
     If the layer of the content view changes, we need to readjust the
     scrollTop and scrollLeft properties on the new DOM element.
