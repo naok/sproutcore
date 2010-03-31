@@ -80,6 +80,9 @@ SC.IndexSet = SC.mixin({},
     ret.initObservable();
     ret.registerDependentKey('min', '[]');
     
+    // must do this by hand since this is no SC.Object
+    ret.registerDependentKey('min', this.min.dependentKeys); 
+    
     // optimized method to clone an index set.
     if (start && start.isIndexSet) {
       ret._content = this._sc_sliceContent(start._content);
@@ -745,8 +748,11 @@ SC.IndexSet = SC.mixin({},
     var oldlen = this.length;
     this._content.length=1;
     this._content[0] = 0;
+
+    this.beginPropertyChanges();
     this.set('length', 0).set('max', 0);
     if (oldlen > 0) this.enumerableContentDidChange();
+    this.endPropertyChanges();
   },
   
   /**
