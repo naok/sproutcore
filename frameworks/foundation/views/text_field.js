@@ -676,14 +676,6 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
       return YES ; // handled
     }
 
-    // validate keyDown...
-    if (this.performValidateKeyDown(evt)) {
-      this._isKeyDown = YES ;
-      evt.allowDefault();
-    } else {
-      evt.stop();
-    }
-
     return YES;
   },
 
