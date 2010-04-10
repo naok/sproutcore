@@ -40,6 +40,9 @@ SC.mixin(/** @scope SC */ {
     @param method {Function}
   */
   loadBundle: function(bundleName, target, method) {
+    
+    console.warn("SC.loadBundle is deprecated.  Use Tiki's require.ensure() instead");
+    
     var idx, len;
     if (method === undefined && SC.typeOf(target) === SC.T_FUNCTION) {
       method = target;
