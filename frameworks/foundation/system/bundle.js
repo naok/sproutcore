@@ -55,6 +55,7 @@ SC.mixin(/** @scope SC */ {
     }
     
     var handler = function() {
+      
       if (SC.T_STRING === typeof target) {
         target = SC.objectForPropertyPath(target);
       }
@@ -64,21 +65,22 @@ SC.mixin(/** @scope SC */ {
       }
 
       // invoke callback only if it exists...
-      if (target) {
-        if (SC.T_STRING === typeof method) method = target[method];
-        if (!method) throw "could not find callback for load";
+      if (target && (SC.T_STRING === typeof method)) method = target[method];
 
-        SC.RunLoop.begin();
-        method.apply(target, args);
-        SC.RunLoop.end();
-      }
+      if (!method) throw "could not find callback for load";
+      SC.RunLoop.begin();
+      method.apply(target, args);
+      SC.RunLoop.end();
       
       handler = target = method = null; // cleanup memory
     };
     
     var loader = this;
     tiki.addReadyListener(function() {
-      tiki.require.ensure(bundleName, function() {
+      var canonicalId = tiki.canonicalPackageId(bundleName);
+      if (!canonicalId) throw "Bundle "+bundleName+" unknown";
+      tiki.ensurePackage(canonicalId, function(err) {
+        if (err) throw "Could not load bundle "+bundleName+": "+err;
         handler.call(loader);
       });
     });
